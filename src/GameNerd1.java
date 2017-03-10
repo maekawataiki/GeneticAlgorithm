@@ -24,7 +24,7 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 
 	public GameNerd1() {
 		//Setting variables
-		manual = true;
+		manual = true; // true to play, false using tool
 		timer = new Timer(16, this); //16 for 60fps
 		seconds = 0;
 		nstage = 1;
