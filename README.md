@@ -1,4 +1,4 @@
 # game1
-- Super Mario Bros. Game
+- Super Mario Bros. 
 - Genetic Algorithm (simple GA, PFGA)
 
