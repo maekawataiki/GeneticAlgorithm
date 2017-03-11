@@ -15,6 +15,7 @@ public class Map extends JPanel {
 	public int[][] stage, storage;
 	private int nstage;
 	public LinkedList<Block> blocks = new LinkedList<Block>();
+	public LinkedList<Enemy> enemies = new LinkedList<Enemy>();
 
 	public Map(Player player, int nstage) {
 		this.player = player;
@@ -52,21 +53,28 @@ public class Map extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.drawImage(background.getImage(), 0, 0, this);
-		player.draw(g2, this);
 		for (Block b : blocks) {
 			b.draw(g2, this);
 		}
+		for (Enemy e : enemies) {
+			e.draw(g2, this);
+		}
+		player.draw(g2, this);
 	}
 
 	public void loadMap() {
 		blocks.clear();
+		enemies.clear();
 		// Create Objects
 		for (int x = 0; x < stage.length; x++) {
 			for (int y = 0; y < stage[x].length; y++) {
 				stage[x][y] = storage[x][y];
-				if (stage[x][y] != 0) {
+				if (1 <= stage[x][y] && stage[x][y] <= 6) {
 					// add block in map
 					blocks.add(new Block((y * 32), (x * 32 + 16), stage[x][y]));
+				} else if (7 <= stage[x][y] && stage[x][y] <= 8){
+					enemies.add(new Enemy(player.g, (y * 32), (x * 32 + 16), stage[x][y]));
+					stage[x][y] = 0;
 				}
 			}
 		}
@@ -92,7 +100,6 @@ public class Map extends JPanel {
 			// read characters and copy it in array
 			for (int x = 0; x < row; x++) {
 				for (int y = 0; y < col; y++) {
-					stage[x][y] = Integer.parseInt(line.charAt(y) + "");
 					storage[x][y] = Integer.parseInt(line.charAt(y) + "");
 				}
 				line = in.readLine();

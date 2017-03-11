@@ -9,6 +9,7 @@ public class Player extends Character {
 
 	public Player(double g) {
 		super(new ImageIcon("images\\mario01right.gif"), g, 64, 368, 6, -12, 0);
+		life = 1;
 	}
 
 	public void moveL() {
@@ -41,28 +42,62 @@ public class Player extends Character {
 			}
 		}
 		super.move(map);
-		if (vx == 0) {
+		if (isDead) {
+			img = new ImageIcon("images\\mario04.gif");
+		} else if (vx == 0) {
 			if (direction == 0) {
-				img = (onfloor) ? new ImageIcon("images\\mario01right.gif")
-						: new ImageIcon("images\\mario20right.gif");
+				img = new ImageIcon((onfloor) ? "images\\mario01right.gif" : "images\\mario03right.gif");
 			} else {
-				img = (onfloor) ? new ImageIcon("images\\mario01left.gif")
-						: new ImageIcon("images\\mario20left.gif");
+				img = new ImageIcon((onfloor) ? "images\\mario01left.gif" : "images\\mario03left.gif");
 			}
 		} else {
 			if (direction == 0) {
-				img = (onfloor) ? new ImageIcon("images\\mario02right.gif")
-						: new ImageIcon("images\\mario20right.gif");
+				img = new ImageIcon((onfloor) ? "images\\mario02right.gif" : "images\\mario03right.gif");
 			} else {
-				img = (onfloor) ? new ImageIcon("images\\mario02left.gif")
-						: new ImageIcon("images\\mario20left.gif");
+				img = new ImageIcon((onfloor) ? "images\\mario02left.gif" : "images\\mario03left.gif");
 			}
 		}
 	}
 
 	public void respawn() {
 		super.respawn(64, 368);
+		life = 1;
 		clear = false;
 		img = new ImageIcon("images\\mario01right.gif");
+	}
+
+	protected void horizontalWall(Map map) {
+		vx = 0;
+	}
+
+	protected void horizontalCollision(Map map) {
+		for (Enemy e : map.enemies) {
+			if (this.getRect().intersects(e.getRect())) {
+				if (e.getType() != 8 || e.life % 2 == 0) {
+					life--;
+				} else {
+					// if enemy is shell and not moving
+					e.direction = direction;
+					xPos = (direction == 0)? e.getX() - width - 1 : e.getX() + e.getWidth() + 1;
+					e.attacked();
+				}
+			}
+		}
+	}
+
+	protected void verticalCollision(Map map) {
+		for (Enemy e : map.enemies) {
+			if (this.getRect().intersects(e.getRect())) {
+				if (vy > 0) {
+					e.attacked();
+					yPos = e.getY() - height;
+					vy = -12;
+				}
+			}
+		}
+		if (life == 0) {
+			isDead = true;
+			vy = -12;
+		}
 	}
 }

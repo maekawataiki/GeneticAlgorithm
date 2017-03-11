@@ -59,7 +59,7 @@ public class toolPFGA extends JPanel {
 
 		setOpaque(false);
 		setBounds(18, 18, 900, 40);
-		add(focusLabel);
+		//add(focusLabel);
 		add(generationLabel);
 		add(numberLabel);
 		add(scoreLabel);

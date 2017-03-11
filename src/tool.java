@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 
-public class tool extends toolPFGA{
+public class tool extends toolGA{
 	
 	public tool(Player player){
 		super(player);

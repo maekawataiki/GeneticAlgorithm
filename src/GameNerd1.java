@@ -24,8 +24,8 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 
 	public GameNerd1() {
 		//Setting variables
-		manual = true; // true to play, false using tool
-		timer = new Timer(16, this); //16 for 60fps
+		manual = false; // true to play, false using tool
+		timer = new Timer(1, this); //16 for 60fps
 		seconds = 0;
 		nstage = 1;
 		gameseconds = 0;
@@ -70,28 +70,13 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 			}
 
 			// move character
-			if (keyRight == keyLeft) {
-				player.stop();
-			} else {
-				if (keyLeft) {
-					player.moveL();
-				} else if (keyRight) {
-					player.moveR();
-				}
-			}
-			if (keyUp) {
-				player.moveU();
-			}
-			player.move(map);
+			moveCharacter();
+			
+			// move enemies
+			moveEnemy();
 
 			// move map
-			if (player.getX() < 500) {
-				map.setX(0);
-			} else if (player.getX() > map.getWidth() - 500) {
-				map.setX(1000 - map.getWidth());
-			} else {
-				map.setX(500 - player.getX());
-			}
+			moveMap();
 
 			// Check Game Over
 			if (player.getY() >= 800) {
@@ -109,6 +94,46 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 			seconds++;
 			gameseconds++;
 			repaint();
+		}
+	}
+	
+	public void moveCharacter(){
+		if (keyRight == keyLeft) {
+			player.stop();
+		} else {
+			if (keyLeft) {
+				player.moveL();
+			} else if (keyRight) {
+				player.moveR();
+			}
+		}
+		if (keyUp) {
+			player.moveU();
+		}
+		player.move(map);
+	}
+	
+	public void moveEnemy(){
+		Enemy delete = null;
+		for (Enemy e : map.enemies) {
+			e.move(map);
+			if(e.getX() < player.getX() + 800){
+				e.activate();
+			}
+			if(e.isDead){
+				delete = e;
+			}
+		}
+		map.enemies.remove(delete);
+	}
+	
+	public void moveMap(){
+		if (player.getX() < 500) {
+			map.setX(0);
+		} else if (player.getX() > map.getWidth() - 500) {
+			map.setX(1000 - map.getWidth());
+		} else {
+			map.setX(500 - player.getX());
 		}
 	}
 	

@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class toolGA extends JPanel {
 
-	private final int xi = 6;
+	private final int xi = 8;
 	private final int testPerGen = 20;
 	protected Player player;
 	private int[] score = new int[testPerGen];
