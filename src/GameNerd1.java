@@ -15,8 +15,8 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 	private boolean keyRight, keyLeft, keyUp, manual;
 	private Graphics2D g2;
 	private JFrame frame;
-	private final double g = 0.4;
-	private int nstage, seconds, gameseconds;
+	private final double g = 0.5;
+	private int nstage, nframe, gameseconds;
 
 	public static void main(String[] args) {
 		new GameNerd1();
@@ -24,9 +24,9 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 
 	public GameNerd1() {
 		//Setting variables
-		manual = false; // true to play, false using tool
+		manual = manual; // true to play, false using tool
 		timer = new Timer(1, this); //16 for 60fps
-		seconds = 0;
+		nframe = 0;
 		nstage = 1;
 		gameseconds = 0;
 
@@ -85,13 +85,13 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 
 			// Check Clear
 			if (player.getX() >= 6536) {
-				System.out.println("Clear Time: " + seconds/60);
+				System.out.println("Clear Time: " + nframe/60);
 				System.out.println("Simulating Time: " + gameseconds/60);
 				if(!manual) tool.printCommand();
 				reset();
 			}
 
-			seconds++;
+			nframe++;
 			gameseconds++;
 			repaint();
 		}
@@ -138,7 +138,8 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	public void autoCommand(){
-		if (seconds % 30 == 0) {
+		// update command
+		if (nframe % 20 == 0) {
 			int order = tool.control();
 			keyUp = (order / 10 == 1) ? true : false;
 			keyLeft = (order % 10 == 1) ? true : false;
@@ -147,16 +148,16 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 		tool.updateInfo();
 		// Finish test if the player could not get to a specific point
 		// in certain time.
-		if (player.getX() < seconds * 4) {
+		if (player.getX() < nframe * 3) {
 			reset();
 		}
 	}
 
 	public void reset() {
-		if(!manual) tool.nextTest(seconds);
+		if(!manual) tool.nextTest(nframe);
 		player.respawn();
 		map.loadMap();
-		seconds = -1;
+		nframe = -1;
 		setVisible(true);
 	}
 

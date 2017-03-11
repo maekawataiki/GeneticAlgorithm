@@ -179,6 +179,6 @@ public abstract class Character {
 	}
 
 	public Rectangle getRect() {
-		return new Rectangle((int) xPos + 1, (int) yPos + 1, width - 1, height - 1);
+		return new Rectangle((int) xPos, (int) yPos, width, height);
 	}
 }

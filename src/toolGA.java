@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class toolGA extends JPanel {
 
-	private final int xi = 8;
-	private final int testPerGen = 20;
+	private final int xi = 8; // number of commands
+	private final int testPerGen = 20; // test per generation
 	protected Player player;
 	private int[] score = new int[testPerGen];
 	private int[][] gene = new int[testPerGen][xi]; // 10s 0(not jump) or

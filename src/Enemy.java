@@ -27,7 +27,18 @@ public class Enemy extends Character {
 	}
 
 	public void horizontalCollision(Map map) {
-
+		for (Enemy e : map.enemies) {
+			if (this.getRect().intersects(e.getRect())) {
+				if (e.getType() != 8 || e.life % 2 == 0) {
+					life--;
+				} else {
+					// if enemy is shell and not moving
+					e.direction = direction;
+					xPos = (direction == 0)? e.getX() - width - 1 : e.getX() + e.getWidth() + 1;
+					e.attacked();
+				}
+			}
+		}
 	}
 
 	public void verticalCollision(Map map) {

@@ -1,7 +1,9 @@
 import javax.swing.*;
 
-
-public class tool extends toolGA{
+// extends one of
+// toolGA
+// toolPFGA
+public class tool extends toolPFGA{
 	
 	public tool(Player player){
 		super(player);

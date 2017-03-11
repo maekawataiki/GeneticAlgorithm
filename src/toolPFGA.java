@@ -6,8 +6,8 @@ import javax.swing.*;
 // 10s 0(not jump) or 1(jump). 
 //  1s 0(neutral), 1(left), or 2(right)
 public class toolPFGA extends JPanel {
-	private final int xi = 6;
-	private final int island = 1;
+	private final int xi = 6; // number of commands
+	private final int island = 1; // number of group
 	protected Player player;
 	private LinkedList<int[]>[] gene = new LinkedList[island];
 	private int[][] family = new int[4][xi + 1];
