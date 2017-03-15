@@ -1,12 +1,12 @@
 # game1
-- Super Mario Bros. like game
-
-- Genetic Algorithm (general)
+Super Mario Bros. like game
+********************************************************************************************************
+Genetic Algorithm (general)
  - Consider the set of commands (up, up left, up right, left, right, neutral) as a genes.
  - Alternate commands per several frames
  - Score calculated based on the distance travelled
-
-- Simple Genetic Algorithm (GA)
+********************************************************************************************************
+Simple Genetic Algorithm (GA)
  - Have several character as 1 generation (eg. 20 characters)
  1. Randomly generate characters for the first generation
  2. Test all characters in a generation
@@ -15,8 +15,8 @@
  5. With certain probability (eg. 2%) change the command of each gene. (mutation)
  6. Produce new 20 characters as new generation from old generation
  7. Repeat 2 - 7.
- 
-- Parameter Free Genetic Algorithm (PFGA)
+ ********************************************************************************************************
+Parameter Free Genetic Algorithm (PFGA)
  - Have several characters as group. The number of characters changes.
  1. Randomly generate a character and put into the group.
  2. Pick two character from the group. If there is only one character in the group, randomly generate one.
