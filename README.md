@@ -24,10 +24,10 @@ Parameter Free Genetic Algorithm (PFGA)
  4. Generate two new characters (children) by crossing two old characters (parents).
  5. Randomly pick new character, randomly decide the number of mutation, and randomly mutate the gene.
  6. Test 4 characters and return several characters to the group with following rules.
-   - If two children are both better than two parents -> Return two children and a better parent
-   - If two parents are both better than two children -> Return a better parent
-   - If only one parent is better than two childen -> Return a better child and a better parent
-   - If only one child is better than two parents -> Return a better child and randomly generated character
+   > If two children are both better than two parents -> Return two children and a better parent
+   > If two parents are both better than two children -> Return a better parent
+   > If only one parent is better than two childen -> Return a better child and a better parent
+   > If only one child is better than two parents -> Return a better child and randomly generated character
  7. Repeat 2 - 7.
 
 
