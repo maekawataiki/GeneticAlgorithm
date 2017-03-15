@@ -28,14 +28,11 @@ public class Enemy extends Character {
 
 	public void horizontalCollision(Map map) {
 		for (Enemy e : map.enemies) {
-			if (this.getRect().intersects(e.getRect())) {
-				if (e.getType() != 8 || e.life % 2 == 0) {
-					life--;
+			if (e != this && this.getRect().intersects(e.getRect())) {
+				if (type == 8 && life < 2 && life % 2 == 0) {
+					e.life = 0;
 				} else {
-					// if enemy is shell and not moving
-					e.direction = direction;
-					xPos = (direction == 0)? e.getX() - width - 1 : e.getX() + e.getWidth() + 1;
-					e.attacked();
+					horizontalWall(map);
 				}
 			}
 		}
@@ -53,12 +50,13 @@ public class Enemy extends Character {
 		}
 		if (life == 0 && type != 8) {
 			isDead = true;
+			vy = -6;
 		}
 	}
 
 	public void attacked() {
 		life--;
-		if (type == 8){
+		if (type == 8) {
 			maxvx = (life % 2 == 0) ? 6 : 0;
 		}
 	}

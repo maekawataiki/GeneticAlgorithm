@@ -23,9 +23,9 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public GameNerd1() {
-		//Setting variables
-		manual = manual; // true to play, false using tool
-		timer = new Timer(1, this); //16 for 60fps
+		// Setting variables
+		manual = false; // true to play, false using tool
+		timer = new Timer(1, this); // 16 for 60fps
 		nframe = 0;
 		nstage = 1;
 		gameseconds = 0;
@@ -48,13 +48,9 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		if (manual) {
-			frame.addKeyListener(this);
-		}
+		frame.addKeyListener(this);
 		frame.setFocusable(true);
 		frame.add(this);
-
-		timer.start();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -71,7 +67,7 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 
 			// move character
 			moveCharacter();
-			
+
 			// move enemies
 			moveEnemy();
 
@@ -85,9 +81,11 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 
 			// Check Clear
 			if (player.getX() >= 6536) {
-				System.out.println("Clear Time: " + nframe/60);
-				System.out.println("Simulating Time: " + gameseconds/60);
-				if(!manual) tool.printCommand();
+				System.out.println("Clear Time: " + nframe / 60);
+				System.out.println("Simulating Time: " + gameseconds / 60);
+				if (!manual)
+					tool.printCommand();
+				nstage++;
 				reset();
 			}
 
@@ -96,8 +94,8 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 			repaint();
 		}
 	}
-	
-	public void moveCharacter(){
+
+	public void moveCharacter() {
 		if (keyRight == keyLeft) {
 			player.stop();
 		} else {
@@ -112,22 +110,22 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 		}
 		player.move(map);
 	}
-	
-	public void moveEnemy(){
+
+	public void moveEnemy() {
 		Enemy delete = null;
 		for (Enemy e : map.enemies) {
 			e.move(map);
-			if(e.getX() < player.getX() + 800){
+			if (e.getX() < player.getX() + 800) {
 				e.activate();
 			}
-			if(e.isDead){
+			if (e.getY() >= 800) {
 				delete = e;
 			}
 		}
 		map.enemies.remove(delete);
 	}
-	
-	public void moveMap(){
+
+	public void moveMap() {
 		if (player.getX() < 500) {
 			map.setX(0);
 		} else if (player.getX() > map.getWidth() - 500) {
@@ -136,9 +134,9 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 			map.setX(500 - player.getX());
 		}
 	}
-	
-	public void autoCommand(){
-		// update command
+
+	public void autoCommand() {
+		// update command per certain frame
 		if (nframe % 20 == 0) {
 			int order = tool.control();
 			keyUp = (order / 10 == 1) ? true : false;
@@ -154,7 +152,8 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void reset() {
-		if(!manual) tool.nextTest(nframe);
+		if (!manual)
+			tool.nextTest(nframe);
 		player.respawn();
 		map.loadMap();
 		nframe = -1;
@@ -171,6 +170,9 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			keyUp = true;
 		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE && !timer.isRunning()){
+			timer.start();
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -186,7 +188,6 @@ public class GameNerd1 extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void keyTyped(KeyEvent e) {
-
 	}
 
 }

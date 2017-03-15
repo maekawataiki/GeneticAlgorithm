@@ -8,7 +8,7 @@ public class Player extends Character {
 	private boolean clear = false;
 
 	public Player(double g) {
-		super(new ImageIcon("images\\mario01right.gif"), g, 64, 368, 6, -12, 0);
+		super(new ImageIcon("images\\player01right.gif"), g, 64, 368, 6, -12, 0);
 		life = 1;
 	}
 
@@ -43,18 +43,18 @@ public class Player extends Character {
 		}
 		super.move(map);
 		if (isDead) {
-			img = new ImageIcon("images\\mario04.gif");
+			img = new ImageIcon("images\\player04.gif");
 		} else if (vx == 0) {
 			if (direction == 0) {
-				img = new ImageIcon((onfloor) ? "images\\mario01right.gif" : "images\\mario03right.gif");
+				img = new ImageIcon((onfloor) ? "images\\player01right.gif" : "images\\player03right.gif");
 			} else {
-				img = new ImageIcon((onfloor) ? "images\\mario01left.gif" : "images\\mario03left.gif");
+				img = new ImageIcon((onfloor) ? "images\\player01left.gif" : "images\\player03left.gif");
 			}
 		} else {
 			if (direction == 0) {
-				img = new ImageIcon((onfloor) ? "images\\mario02right.gif" : "images\\mario03right.gif");
+				img = new ImageIcon((onfloor) ? "images\\player02right.gif" : "images\\player03right.gif");
 			} else {
-				img = new ImageIcon((onfloor) ? "images\\mario02left.gif" : "images\\mario03left.gif");
+				img = new ImageIcon((onfloor) ? "images\\player02left.gif" : "images\\player03left.gif");
 			}
 		}
 	}
@@ -63,7 +63,7 @@ public class Player extends Character {
 		super.respawn(64, 368);
 		life = 1;
 		clear = false;
-		img = new ImageIcon("images\\mario01right.gif");
+		img = new ImageIcon("images\\player01right.gif");
 	}
 
 	protected void horizontalWall(Map map) {
@@ -73,28 +73,33 @@ public class Player extends Character {
 	protected void horizontalCollision(Map map) {
 		for (Enemy e : map.enemies) {
 			if (this.getRect().intersects(e.getRect())) {
-				if (e.getType() != 8 || e.life % 2 == 0) {
-					life--;
-				} else {
+				if(e.getType() == 8 && e.life % 2 == 1){
 					// if enemy is shell and not moving
 					e.direction = direction;
 					xPos = (direction == 0)? e.getX() - width - 1 : e.getX() + e.getWidth() + 1;
 					e.attacked();
+				} else if (e.life > 0 || e.getType() == 8) {
+					life--;
 				}
 			}
 		}
 	}
 
 	protected void verticalCollision(Map map) {
+		Enemy delete = null;
 		for (Enemy e : map.enemies) {
 			if (this.getRect().intersects(e.getRect())) {
 				if (vy > 0) {
 					e.attacked();
 					yPos = e.getY() - height;
 					vy = -12;
+					if(e.getType() != 8 && e.life == 0){
+						delete = e;
+					}
 				}
 			}
 		}
+		map.enemies.remove(delete);
 		if (life == 0) {
 			isDead = true;
 			vy = -12;
