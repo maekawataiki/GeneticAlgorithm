@@ -1,5 +1,5 @@
-# game1
-Super Mario Bros. like game
+# Genetic Algorithm with Super Mario like game
+
 ********************************************************************************************************
 Genetic Algorithm (general)
  - Consider the set of commands (up, up left, up right, left, right, neutral) as a genes.
